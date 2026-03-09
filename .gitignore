@@ -1,0 +1,17 @@
+cd /d/workspace/workspace-new/celestial
+
+cat > .gitignore << 'EOF'
+# Frontend
+celestial-frontend/node_modules
+celestial-frontend/dist
+
+# Backend
+celestial-backend/target
+*.class
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.DS_Store
+EOF
