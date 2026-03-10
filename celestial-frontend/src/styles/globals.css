@@ -1,85 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@200;300;400;500;600&family=Space+Mono&family=Fraunces:ital,opsz,wght@1,9..144,300;1,9..144,400&family=Noto+Serif+SC:wght@300;400;700;900&family=IM+Fell+English:ital@0;1&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@200;300;400;500;600&family=Space+Mono&family=Fraunces:ital,opsz,wght@1,9..144,300;1,9..144,400&family=Noto+Serif+SC:wght@300;400;700;900&family=IM+Fell+English:ital@0;1&family=Playfair+Display:ital,wght@0,700;1,700&family=Cinzel+Decorative:wght@700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400&family=Philosopher:ital,wght@0,400;0,700;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* Crystal Prism — Homepage */
-  --cp-bg: #050508;
-  --cp-card: #0a0a14;
-  --cp-text: #e8f0ff;
-  --cp-text-dim: rgba(232,240,255,0.4);
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+input, button, textarea, select { font: inherit; }
+button { cursor: pointer; border: none; background: none; }
+a { text-decoration: none; color: inherit; }
 
-  /* Celestial Map — Numerology */
-  --cm-bg: #03060f;
-  --cm-card: #080e1e;
-  --cm-copper: #b87333;
-  --cm-navy: #4a7ab5;
-  --cm-text: #c8d8f0;
-  --cm-text-dim: rgba(200,216,240,0.4);
-
-  /* Alchemy Lab — Astrology */
-  --al-bg: #08090a;
-  --al-card: #0c0e08;
-  --al-green: #8aaa44;
-  --al-amber: #c8a860;
-  --al-text: #c8d4a0;
-
-  /* Dragon Gate — Tu Vi */
-  --dg-bg: #080204;
-  --dg-card: #1a0808;
-  --dg-gold: #c8942a;
-  --dg-crimson: #8b0000;
-  --dg-text: #f8e8d0;
-
-  /* Zen Ink — Kinh Dich */
-  --zi-bg: #f4f0e8;
-  --zi-card: #fffdf4;
-  --zi-ink: #1a1208;
-  --zi-red: #8b1a00;
-
-  /* Royal Botanical — Oracle */
-  --rb-bg: #050e0a;
-  --rb-card: #0a1a0f;
-  --rb-emerald: #4a8a5a;
-  --rb-plum: #8a4a8a;
-  --rb-text: #d4e8d0;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: 'Outfit', sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
-
-/* Animations */
-@keyframes shimmer {
-  0% { background-position: 200% center; }
-  100% { background-position: -200% center; }
-}
-@keyframes rotate {
-  to { transform: rotate(360deg); }
-}
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes twinkle {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 1; }
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
+/* Exact keyframes copied from demo HTML */
+@keyframes fadeUp  { from { opacity:0; transform:translateY(22px) } to { opacity:1; transform:none } }
+@keyframes fadeIn  { from { opacity:0 } to { opacity:1 } }
+@keyframes shimmer { 0% { background-position:200% center } 100% { background-position:-200% center } }
+@keyframes rotate  { to { transform:rotate(360deg) } }
+@keyframes pulse   { 0%,100% { opacity:.4 } 50% { opacity:1 } }
+@keyframes float   { 0%,100% { transform:translateY(0) } 50% { transform:translateY(-10px) } }
+@keyframes flicker { 0%,100%{opacity:1}92%{opacity:1}93%{opacity:.4}94%{opacity:1}96%{opacity:.6}97%{opacity:1} }
+@keyframes ink     { from{stroke-dashoffset:800;opacity:0}to{stroke-dashoffset:0;opacity:1} }
+@keyframes breathe { 0%,100%{transform:scale(1)}50%{transform:scale(1.03)} }

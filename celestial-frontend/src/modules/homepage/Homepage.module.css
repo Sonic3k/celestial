@@ -1,0 +1,330 @@
+/* Crystal Prism — copied 1:1 from demo v2/t3
+   bg: #050508  |  font: Fraunces italic
+   Iridescent gradient border card, shimmer title  */
+
+.page {
+  background: #050508;
+  color: #e8f0ff;
+  font-family: 'Fraunces', serif;
+  position: relative;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Conic glow + prism beam — exact from demo */
+.prismBg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.prismBg::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  top: -200px; left: 50%; transform: translateX(-50%);
+  background: conic-gradient(
+    from 0deg,
+    #ff000008, #ff800008, #ffff0008, #00ff0008,
+    #00ffff08, #0000ff08, #8000ff08, #ff000008
+  );
+  animation: rotate 30s linear infinite;
+}
+.prismBg::after {
+  content: '';
+  position: absolute;
+  width: 800px; height: 2px;
+  top: 40%; left: 50%;
+  transform: translateX(-50%) rotate(-15deg);
+  background: linear-gradient(to right,
+    transparent 0%,
+    #ff000033 15%, #ff800033 25%, #ffff0033 35%,
+    #00ff0033 45%, #00ffff33 55%, #0000ff33 65%,
+    #8000ff33 75%, transparent 100%
+  );
+  filter: blur(2px);
+}
+
+/* Crystal shard SVG */
+.crystalShard {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .04;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 660px;
+  margin: 0 auto;
+  padding: 50px 24px 80px;
+}
+
+/* Iridescent rainbow label */
+.irisLabel {
+  text-align: center;
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  background: linear-gradient(to right, #ff8888, #ffcc88, #ffff88, #88ff88, #88ffff, #8888ff, #cc88ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% auto;
+  animation: shimmer 4s linear infinite, fadeUp .6s .1s both;
+  margin-bottom: 20px;
+}
+
+/* Main h1 */
+.h1 {
+  text-align: center;
+  font-size: clamp(50px, 10vw, 88px);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: .04em;
+  line-height: 1;
+  background: linear-gradient(135deg, #e8f0ff 20%, #c8d8ff 40%, #a0b8ff 60%, #e8f0ff 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+  animation: fadeUp .8s .2s both;
+}
+.h1 strong { font-weight: 700; font-style: normal; letter-spacing: .02em; }
+
+.prismSub {
+  text-align: center;
+  font-size: 11px;
+  color: #ffffff33;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  margin-bottom: 52px;
+  animation: fadeUp .8s .3s both;
+}
+
+/* Crystal card — iridescent gradient border */
+.crystalCard {
+  position: relative;
+  padding: 2px;
+  border-radius: 20px;
+  background: linear-gradient(135deg,
+    #ff888811, #ffcc8811, #ffff8811, #88ff8811,
+    #88ffff11, #8888ff11, #cc88ff11, #ff888811
+  );
+  background-size: 300% 300%;
+  animation: shimmer 6s linear infinite, fadeUp .8s .5s both;
+}
+
+.crystalInner {
+  border-radius: 18px;
+  padding: 40px 34px;
+  background: linear-gradient(145deg, #0a0a14, #050508);
+  backdrop-filter: blur(20px);
+}
+
+/* Iridescent corner accents */
+.ic { position: absolute; width: 48px; height: 48px; }
+.icTl { top: -1px; left: -1px; background: linear-gradient(135deg, #8888ff44, transparent); border-radius: 18px 0 0 0; }
+.icTr { top: -1px; right: -1px; background: linear-gradient(225deg, #ff888844, transparent); border-radius: 0 18px 0 0; }
+.icBl { bottom: -1px; left: -1px; background: linear-gradient(45deg, #88ff8844, transparent); border-radius: 0 0 0 18px; }
+.icBr { bottom: -1px; right: -1px; background: linear-gradient(315deg, #ffff8844, transparent); border-radius: 0 0 18px 0; }
+
+/* Module pill badge */
+.modulePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border-radius: 40px;
+  margin-bottom: 28px;
+  background: linear-gradient(135deg, #ffffff08, #ffffff04);
+  border: 1px solid #ffffff11;
+  font-size: 12px;
+  color: #ffffff55;
+  letter-spacing: .1em;
+  font-family: 'Outfit', sans-serif;
+}
+.spark {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: conic-gradient(#ff8888, #8888ff, #88ffff, #ff8888);
+  animation: rotate 2s linear infinite;
+}
+
+.fl {
+  font-size: 11px;
+  letter-spacing: .18em;
+  color: #ffffff44;
+  text-transform: uppercase;
+  font-family: 'Outfit', sans-serif;
+  margin-bottom: 9px;
+}
+
+.inputDate {
+  width: 100%;
+  padding: 14px 18px;
+  background: #ffffff06;
+  border: 1px solid #ffffff11;
+  border-radius: 12px;
+  color: #e8f0ff;
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  outline: none;
+  transition: all .3s;
+  margin-bottom: 24px;
+  color-scheme: dark;
+}
+.inputDate:focus {
+  background: #ffffff0c;
+  box-shadow: 0 0 0 2px #ffffff11, 0 0 20px #8888ff22;
+}
+
+.btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #3a3070, #1a1040);
+  color: #c8d8ff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+}
+.btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #ff888822, #ffcc8822, #ffff8822, #88ff8822, #88ffff22, #8888ff22);
+  background-size: 300% 300%;
+  opacity: 0;
+  transition: opacity .3s;
+  animation: shimmer 3s linear infinite;
+}
+.btn:hover::after { opacity: 1; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px #8888ff33; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btnText { position: relative; z-index: 1; }
+
+/* Result */
+.resultBox { margin-top: 32px; animation: fadeUp .5s both; }
+
+.prismResult {
+  padding-top: 24px;
+  border-top: 1px solid #ffffff08;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.numPrism {
+  font-size: 100px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1;
+  background: linear-gradient(135deg,
+    #ff8888 0%, #ffaa88 15%, #ffff88 30%,
+    #88ff88 45%, #88ffff 60%, #8888ff 75%, #cc88ff 90%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+  filter: drop-shadow(0 0 30px #8888ff44);
+}
+
+.rname { font-size: 20px; color: #e8f0ff; text-align: center; letter-spacing: .03em; }
+.rdesc { font-size: 13px; color: #ffffff44; line-height: 2; text-align: center; font-style: italic; font-family: 'Outfit', sans-serif; font-weight: 300; }
+
+/* ── Module cards grid (homepage extension) ── */
+.moduleGrid {
+  margin-top: 52px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 780px) { .moduleGrid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .moduleGrid { grid-template-columns: 1fr; } }
+
+.moduleCard {
+  position: relative;
+  padding: 2px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ffffff08, #ffffff04, #ffffff08);
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  animation: fadeUp .7s both;
+  transition: background .3s;
+}
+.moduleCard:hover {
+  background: linear-gradient(135deg,
+    var(--accent-color, #8888ff) 0% 0%,
+    #ffffff22 50%,
+    var(--accent-color, #8888ff) 100%
+  );
+  opacity: .9;
+}
+
+.moduleCardInner {
+  border-radius: 14px;
+  padding: 22px 20px;
+  background: linear-gradient(145deg, #0a0a14, #050508);
+  height: 100%;
+}
+
+.moduleCardIcon { font-size: 22px; margin-bottom: 12px; display: block; }
+.moduleCardVi {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: #e8f0ff;
+  display: block;
+  margin-bottom: 2px;
+}
+.moduleCardEn {
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #ffffff33;
+  display: block;
+  margin-bottom: 10px;
+}
+.moduleCardDesc {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: #ffffff33;
+  line-height: 1.7;
+}
+
+/* Error */
+.error {
+  margin-bottom: 16px; padding: 10px 14px;
+  border: 1px solid rgba(255,100,100,.2);
+  background: rgba(255,100,100,.05);
+  color: rgba(255,160,160,.9);
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  border-radius: 8px;
+}
+
+/* Export */
+.exportBlock { margin-top: 28px; border: 1px solid #ffffff0a; background: #ffffff04; border-radius: 12px; }
+.exportHeader { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid #ffffff08; font-family: 'Outfit', sans-serif; font-size: 10px; letter-spacing: .2em; color: #ffffff33; text-transform: uppercase; }
+.exportText { padding: 16px; font-family: 'Space Mono', monospace; font-size: 10px; line-height: 1.9; color: #ffffff22; white-space: pre-wrap; word-break: break-word; max-height: 220px; overflow-y: auto; }
+.copyBtn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; border-top: 1px solid #ffffff08; background: transparent; color: #ffffff33; font-family: 'Outfit', sans-serif; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; cursor: pointer; transition: all .3s; border-radius: 0 0 12px 12px; }
+.copyBtn:hover { background: #ffffff08; color: #c8d8ff; }
