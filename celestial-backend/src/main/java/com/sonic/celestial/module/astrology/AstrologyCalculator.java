@@ -169,5 +169,20 @@ public class AstrologyCalculator {
         );
     }
 
-    public record SignInfo(String nameEn, String nameVi, String symbol, int index, double degree) {}
+    public static class SignInfo {
+        private final String nameEn, nameVi, symbol;
+        private final int index;
+        private final double degree;
+
+        public SignInfo(String nameEn, String nameVi, String symbol, int index, double degree) {
+            this.nameEn = nameEn; this.nameVi = nameVi; this.symbol = symbol;
+            this.index = index;   this.degree = degree;
+        }
+
+        public String nameEn() { return nameEn; }
+        public String nameVi() { return nameVi; }
+        public String symbol() { return symbol; }
+        public int index()     { return index; }
+        public double degree() { return degree; }
+    }
 }
