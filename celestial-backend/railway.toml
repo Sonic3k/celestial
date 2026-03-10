@@ -3,4 +3,4 @@ builder = "nixpacks"
 buildCommand = "mvn clean package -DskipTests"
 
 [deploy]
-startCommand = "java -jar target/celestial-0.0.1-SNAPSHOT.jar"
+startCommand = "java -jar target/celestial-backend-0.0.1-SNAPSHOT.jar"
