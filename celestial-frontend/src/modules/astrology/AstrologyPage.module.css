@@ -1,0 +1,446 @@
+.page {
+  min-height: 100vh;
+  background: #08090a;
+  color: #c8d4a0;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Graph paper background */
+.labBg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.labBg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 20% 50%, #0d1a0811, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 80% 30%, #1a120411, transparent 70%);
+}
+
+.labBg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(0deg,   #3a5a2008 1px, transparent 1px),
+    linear-gradient(90deg,  #3a5a2008 1px, transparent 1px),
+    linear-gradient(0deg,   #3a5a2022 1px, transparent 1px),
+    linear-gradient(90deg,  #3a5a2022 1px, transparent 1px);
+  background-size: 20px 20px, 20px 20px, 100px 100px, 100px 100px;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 48px 28px 100px;
+}
+
+/* Lab header */
+.labHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  animation: fadeUp 0.6s 0.1s both;
+}
+
+.labStamp {
+  border: 2px solid #c8d4a044;
+  padding: 6px 14px;
+  border-radius: 2px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  color: #c8d4a066;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  line-height: 1.8;
+}
+
+.labFormula {
+  text-align: right;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: #8aaa4488;
+  letter-spacing: .05em;
+  line-height: 1.8;
+}
+
+/* Title */
+.h1 {
+  font-family: 'IM Fell English', serif;
+  font-size: clamp(52px, 10vw, 88px);
+  font-weight: 400;
+  line-height: .92;
+  letter-spacing: .03em;
+  margin-bottom: 6px;
+  animation: fadeUp 0.8s 0.2s both;
+}
+
+.greenGlow {
+  color: #8aaa44;
+  text-shadow: 0 0 20px #8aaa4488, 0 0 40px #8aaa4422;
+}
+
+.sepia { color: #c8a860; }
+
+/* Apparatus separator */
+.apparatus {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0 32px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: #c8d4a044;
+  animation: fadeUp 0.6s 0.3s both;
+}
+
+.apparatus::before {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #8aaa4444);
+}
+
+.appCenter {
+  padding: 0 12px;
+  color: #8aaa4888;
+  letter-spacing: .2em;
+  white-space: nowrap;
+}
+
+.apparatus::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to left, transparent, #8aaa4444);
+}
+
+/* Planet symbols */
+.symbols {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s 0.35s both;
+}
+
+.symItem { text-align: center; }
+
+.symChar {
+  font-size: 24px;
+  color: #8aaa4488;
+  display: block;
+  animation: pulse 3s ease-in-out infinite;
+  animation-delay: inherit;
+}
+
+/* Module label */
+.moduleLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  animation: fadeUp 0.6s 0.4s both;
+}
+
+.bracket {
+  color: #8aaa4466;
+  font-size: 18px;
+  font-family: 'Space Mono', monospace;
+}
+
+.mlText {
+  font-family: 'IM Fell English', serif;
+  font-size: 22px;
+  color: #c8d4a0;
+}
+
+.mlEn {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  color: #8aaa4888;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+/* Back button */
+.backBtn {
+  display: inline-block;
+  background: none;
+  border: none;
+  color: #8aaa4466;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .15em;
+  cursor: pointer;
+  margin-bottom: 24px;
+  padding: 0;
+  transition: color .3s;
+}
+
+.backBtn:hover { color: #8aaa44; }
+
+/* Notebook card */
+.notebook {
+  background: linear-gradient(160deg, #0c0e08, #080a06);
+  border: 1px solid #3a5a2044;
+  border-radius: 2px;
+  padding: 36px 32px 36px 64px;
+  position: relative;
+  animation: fadeUp 0.7s 0.45s both;
+  box-shadow: 0 20px 80px #00000088;
+}
+
+.lineNums {
+  position: absolute;
+  left: 16px;
+  top: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  color: #c8a86033;
+  line-height: 2.8;
+  user-select: none;
+}
+
+.notebookInner {
+  border-left: 1px solid #c8a86022;
+  padding-left: 24px;
+}
+
+/* Fields */
+.fieldLabel {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .15em;
+  color: #8aaa4488;
+  margin-bottom: 8px;
+  margin-top: 4px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #3a5a2066;
+  color: #c8d4a0;
+  font-family: 'IM Fell English', serif;
+  font-size: 18px;
+  outline: none;
+  transition: border-color .3s;
+  margin-bottom: 24px;
+  color-scheme: dark;
+}
+
+.input:focus { border-bottom-color: #8aaa44; }
+.input::placeholder { color: #c8d4a033; font-style: italic; }
+
+/* City search */
+.cityWrap { position: relative; margin-bottom: 0; }
+.cityWrap .input { margin-bottom: 0; }
+
+.cityConfirmed {
+  margin-top: 6px;
+  margin-bottom: 24px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: #8aaa44;
+  letter-spacing: .05em;
+}
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #0c0e08;
+  border: 1px solid #3a5a2066;
+  border-top: none;
+  z-index: 10;
+  margin-bottom: 24px;
+}
+
+.suggItem {
+  padding: 10px 14px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  color: #c8d4a0;
+  cursor: pointer;
+  transition: background .2s;
+  border-bottom: 1px solid #3a5a2033;
+}
+
+.suggItem:hover { background: #8aaa4411; color: #8aaa44; }
+
+/* Select */
+.select {
+  width: 100%;
+  padding: 12px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #3a5a2066;
+  color: #c8d4a0;
+  font-family: 'IM Fell English', serif;
+  font-size: 16px;
+  outline: none;
+  margin-bottom: 28px;
+  cursor: pointer;
+  appearance: none;
+}
+
+.select option { background: #0c0e08; }
+
+.error {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: #ff6666;
+  margin-bottom: 16px;
+  letter-spacing: .05em;
+}
+
+/* Submit button */
+.btn {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #8aaa4488;
+  background: transparent;
+  color: #8aaa44;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .15em;
+  cursor: pointer;
+  transition: all .3s;
+  border-radius: 1px;
+  margin-top: 4px;
+}
+
+.btn:hover:not(:disabled) {
+  background: #8aaa4422;
+  box-shadow: 0 0 20px #8aaa4422;
+}
+
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ── Result ─────────────────────────────── */
+.resultSection {
+  margin-top: 40px;
+  animation: fadeUp .5s both;
+}
+
+.resDivider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: #8aaa4488;
+  letter-spacing: .2em;
+}
+
+.resDivider::before,
+.resDivider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #8aaa4444);
+}
+
+.resDivider::after {
+  background: linear-gradient(to left, transparent, #8aaa4444);
+}
+
+/* Big Three */
+.bigThree {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 600px) {
+  .bigThree { flex-direction: column; }
+}
+
+/* Planet table */
+.planetTable {
+  background: linear-gradient(160deg, #0c0e08, #080a06);
+  border: 1px solid #3a5a2044;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr;
+  padding: 10px 20px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: #8aaa4488;
+  border-bottom: 1px solid #3a5a2044;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr;
+  padding: 12px 20px;
+  border-bottom: 1px solid #3a5a2022;
+  transition: background .2s;
+}
+
+.tableRow:last-child { border-bottom: none; }
+.tableRow:hover { background: #8aaa4408; }
+
+.planetName {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  color: #c8d4a0;
+}
+
+.planetSign {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  color: #8aaa44;
+}
+
+.planetDeg {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: #c8a86088;
+  text-align: right;
+}
+
+/* Copy button */
+.copyBtn {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #c8a86066;
+  background: transparent;
+  color: #c8a860;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .12em;
+  cursor: pointer;
+  transition: all .3s;
+  border-radius: 1px;
+}
+
+.copyBtn:hover {
+  background: #c8a86011;
+  box-shadow: 0 0 20px #c8a86011;
+}
