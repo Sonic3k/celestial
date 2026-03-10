@@ -4,6 +4,7 @@ import com.sonic.celestial.common.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/numerology")
 public class NumerologyController {

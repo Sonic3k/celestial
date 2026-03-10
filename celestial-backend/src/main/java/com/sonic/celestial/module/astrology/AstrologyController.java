@@ -3,6 +3,7 @@ package com.sonic.celestial.module.astrology;
 import com.sonic.celestial.common.ApiResponse;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/astrology")
 public class AstrologyController {

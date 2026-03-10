@@ -4,6 +4,7 @@ import com.sonic.celestial.common.ApiResponse;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/tarot")
 public class TarotController {
