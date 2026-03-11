@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Homepage from './modules/homepage/Homepage'
 import NumerologyPage from './modules/numerology/NumerologyPage'
 import AstrologyPage from './modules/astrology/AstrologyPage'
-import TarotPage from './modules/astrology/TarotPage'
+import TarotPage from './modules/tarot/TarotPage'
 
 export default function App() {
   return (
