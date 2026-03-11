@@ -1,0 +1,661 @@
+.page {
+  min-height: 100vh;
+  background: #050508;
+  color: #e8f0ff;
+  font-family: 'Fraunces', serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ── Background ─────────────────────────── */
+.prismBg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.prismBg::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  top: -200px; left: 50%;
+  transform: translateX(-50%);
+  background: conic-gradient(
+    from 0deg,
+    #ff000008, #ff800008, #ffff0008, #00ff0008,
+    #00ffff08, #0000ff08, #8000ff08, #ff000008
+  );
+  animation: rotate 30s linear infinite;
+}
+
+.prismBg::after {
+  content: '';
+  position: absolute;
+  width: 800px; height: 3px;
+  top: 40%; left: 50%;
+  transform: translateX(-50%) rotate(-15deg);
+  background: linear-gradient(to right,
+    transparent 0%,
+    #ff000033 15%, #ff800033 25%, #ffff0033 35%,
+    #00ff0033 45%, #00ffff33 55%, #0000ff33 65%,
+    #8000ff33 75%, transparent 100%
+  );
+  filter: blur(3px);
+}
+
+.crystalShard {
+  position: fixed;
+  width: 300px; height: 300px;
+  top: 10%; right: -50px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .04;
+}
+
+/* ── Layout ─────────────────────────────── */
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 50px 24px 100px;
+}
+
+/* ── Header ─────────────────────────────── */
+.irisLabel {
+  text-align: center;
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  background: linear-gradient(to right, #ff8888, #ffcc88, #ffff88, #88ff88, #88ffff, #8888ff, #cc88ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% auto;
+  animation: shimmer 4s linear infinite, fadeUp .6s .1s both;
+  margin-bottom: 16px;
+}
+
+.h1 {
+  text-align: center;
+  font-size: clamp(48px, 10vw, 88px);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: .04em;
+  line-height: 1;
+  background: linear-gradient(135deg, #e8f0ff 20%, #c8d8ff 40%, #a0b8ff 60%, #e8f0ff 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+  animation: fadeUp .8s .2s both;
+}
+
+.h1 strong { font-weight: 700; font-style: normal; }
+
+.prismSub {
+  text-align: center;
+  font-size: 11px;
+  color: #ffffff33;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  margin-bottom: 40px;
+  animation: fadeUp .8s .3s both;
+}
+
+.backBtn {
+  display: block;
+  background: none;
+  border: none;
+  color: #ffffff33;
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  letter-spacing: .15em;
+  cursor: pointer;
+  margin-bottom: 24px;
+  padding: 0;
+  transition: color .3s;
+}
+.backBtn:hover { color: #a0b8ff; }
+
+/* ── Crystal Card ────────────────────────── */
+.crystalCard {
+  position: relative;
+  padding: 2px;
+  border-radius: 20px;
+  background: linear-gradient(135deg,
+    #ff888811, #ffcc8811, #ffff8811, #88ff8811,
+    #88ffff11, #8888ff11, #cc88ff11, #ff888811
+  );
+  background-size: 300% 300%;
+  animation: shimmer 6s linear infinite, fadeUp .8s .5s both;
+}
+
+.icTl, .icTr, .icBl, .icBr {
+  position: absolute;
+  width: 48px; height: 48px;
+  z-index: 1;
+}
+.icTl { top: -1px; left: -1px; background: linear-gradient(135deg,#8888ff44,transparent); border-radius: 18px 0 0 0; }
+.icTr { top: -1px; right: -1px; background: linear-gradient(225deg,#ff888844,transparent); border-radius: 0 18px 0 0; }
+.icBl { bottom: -1px; left: -1px; background: linear-gradient(45deg,#88ff8844,transparent); border-radius: 0 0 0 18px; }
+.icBr { bottom: -1px; right: -1px; background: linear-gradient(315deg,#ffff8844,transparent); border-radius: 0 0 18px 0; }
+
+.crystalInner {
+  border-radius: 18px;
+  padding: 40px 34px;
+  background: linear-gradient(145deg, #0a0a14, #050508);
+  backdrop-filter: blur(20px);
+}
+
+.modulePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border-radius: 40px;
+  margin-bottom: 28px;
+  background: linear-gradient(135deg, #ffffff08, #ffffff04);
+  border: 1px solid #ffffff11;
+  font-size: 12px;
+  color: #ffffff55;
+  letter-spacing: .1em;
+  font-family: 'Outfit', sans-serif;
+}
+
+.spark {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: conic-gradient(#ff8888, #8888ff, #88ffff, #ff8888);
+  animation: rotate 2s linear infinite;
+}
+
+/* ── Deck selector ───────────────────────── */
+.deckRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.deckBtn {
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid #ffffff11;
+  border-radius: 20px;
+  color: #ffffff44;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.deckBtn:hover { border-color: #8888ff44; color: #a0b8ff; }
+.deckActive { border-color: #8888ff88 !important; color: #c8d8ff !important; }
+
+/* ── Spread selector ─────────────────────── */
+.fieldLabel {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  letter-spacing: .2em;
+  color: #ffffff44;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.spreadRow {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.spreadBtn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 20px 12px;
+  background: #ffffff04;
+  border: 1px solid #ffffff11;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all .3s;
+  color: #ffffff44;
+}
+
+.spreadBtn:hover {
+  background: #ffffff08;
+  border-color: #8888ff33;
+}
+
+.spreadActive {
+  background: #8888ff11 !important;
+  border-color: #8888ff55 !important;
+  color: #c8d8ff !important;
+}
+
+.spreadIcon {
+  font-size: 14px;
+  color: #8888ff88;
+  letter-spacing: .3em;
+}
+
+.spreadName {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  color: inherit;
+}
+
+.spreadDesc {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: #ffffff33;
+  text-transform: uppercase;
+}
+
+/* ── Draw button ─────────────────────────── */
+.btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #3a3070, #1a1040);
+  color: #c8d8ff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    #ff888822, #ffcc8822, #ffff8822,
+    #88ff8822, #88ffff22, #8888ff22
+  );
+  background-size: 300% 300%;
+  opacity: 0;
+  transition: opacity .3s;
+  animation: shimmer 3s linear infinite;
+}
+
+.btn:hover::after { opacity: 1; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px #8888ff33; }
+.btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+.btn span { position: relative; z-index: 1; }
+
+/* ── Result spread ───────────────────────── */
+.resultSection {
+  margin-top: 48px;
+  animation: fadeUp .6s both;
+}
+
+.cardSpread {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.cardSpread[data-spread="1"] .cardSlot { max-width: 260px; }
+.cardSpread[data-spread="3"] .cardSlot { flex: 1; max-width: 220px; }
+
+@media (max-width: 600px) {
+  .cardSpread { flex-direction: column; align-items: center; }
+  .cardSpread[data-spread="3"] .cardSlot { max-width: 240px; width: 100%; }
+}
+
+.cardSlot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.positionLabel {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #ffffff44;
+}
+
+/* ── Card flip ───────────────────────────── */
+.cardFlip {
+  width: 160px;
+  height: 280px;
+  perspective: 800px;
+  cursor: pointer;
+  position: relative;
+}
+
+.cardBack, .cardFront {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: transform .7s cubic-bezier(.4, 0, .2, 1);
+}
+
+/* Back face — visible initially */
+.cardBack {
+  transform: rotateY(0deg);
+  background: linear-gradient(145deg, #0a0a14, #050508);
+  border: 1px solid #ffffff11;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backPattern {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from 0deg,
+    #ff000006, #ff800006, #ffff0006, #00ff0006,
+    #00ffff06, #0000ff06, #8000ff06, #ff000006
+  );
+  background-size: 200% 200%;
+  animation: shimmer 8s linear infinite;
+}
+
+.backCenter {
+  position: relative;
+  font-size: 32px;
+  color: #ffffff22;
+  z-index: 1;
+}
+
+/* Front face — hidden initially */
+.cardFront {
+  transform: rotateY(180deg);
+  background: linear-gradient(145deg, #0d0d1a, #07070f);
+  border: 1px solid #ffffff11;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Flipped state */
+.flipped .cardBack  { transform: rotateY(-180deg); }
+.flipped .cardFront { transform: rotateY(0deg); }
+
+.flipped:hover .cardFront {
+  box-shadow: 0 0 0 1px #8888ff44, 0 0 30px #8888ff22;
+}
+
+.reversed .cardPlaceholder,
+.reversed .cardImage {
+  transform: rotate(180deg);
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* Placeholder when no image */
+.cardPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  text-align: center;
+  height: 100%;
+  background: linear-gradient(135deg,
+    #ff888808, #ffcc8808, #ffff8808, #88ff8808,
+    #88ffff08, #8888ff08, #cc88ff08
+  );
+  background-size: 200% 200%;
+  animation: shimmer 6s linear infinite;
+}
+
+.romanNum {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  color: #ffffff33;
+  letter-spacing: .2em;
+}
+
+.cardNameBig {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 13px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #e8f0ff, #c8d8ff, #a0b8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.3;
+}
+
+.cardNameEn {
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
+  color: #ffffff33;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.cardElement {
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
+  color: #8888ff55;
+  letter-spacing: .1em;
+  margin-top: 4px;
+}
+
+.reversedBadge {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
+  color: #ff888888;
+  letter-spacing: .1em;
+  background: #ff888811;
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid #ff888833;
+}
+
+/* Card meta below card */
+.cardMeta {
+  text-align: center;
+  animation: fadeUp .4s both;
+}
+
+.cardMetaName {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  color: #c8d8ff;
+  margin-bottom: 4px;
+}
+
+.cardMetaKeywords {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  color: #ffffff33;
+  letter-spacing: .05em;
+  max-width: 160px;
+  line-height: 1.6;
+}
+
+/* ── Copy button ─────────────────────────── */
+.copyBtn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #8888ff44;
+  background: transparent;
+  color: #8888ff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  letter-spacing: .12em;
+  cursor: pointer;
+  transition: all .3s;
+  border-radius: 2px;
+}
+
+.copyBtn:hover {
+  background: #8888ff11;
+  box-shadow: 0 0 20px #8888ff11;
+}
+
+/* ── Modal ───────────────────────────────── */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: #00000088;
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn .3s both;
+}
+
+.modal {
+  position: relative;
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: linear-gradient(145deg, #0d0d1a, #07070f);
+  border: 1px solid #ffffff11;
+  border-radius: 20px;
+  padding: 36px 32px;
+  animation: fadeUp .4s both;
+}
+
+.modalClose {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: none;
+  border: none;
+  color: #ffffff44;
+  font-size: 16px;
+  cursor: pointer;
+  transition: color .3s;
+}
+.modalClose:hover { color: #ffffff; }
+
+.modalHeader {
+  text-align: center;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ffffff08;
+}
+
+.modalRoman {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  color: #ffffff33;
+  letter-spacing: .3em;
+  margin-bottom: 8px;
+}
+
+.modalName {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 22px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #e8f0ff, #c8d8ff, #a0b8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 4px;
+}
+
+.modalNameEn {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  color: #ffffff33;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.modalReversed {
+  margin-top: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  color: #ff888888;
+  letter-spacing: .1em;
+}
+
+.modalSection {
+  margin-bottom: 20px;
+}
+
+.modalSectionLabel {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #8888ff88;
+  margin-bottom: 10px;
+}
+
+.modalKeywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.keyword {
+  padding: 4px 10px;
+  background: #8888ff11;
+  border: 1px solid #8888ff22;
+  border-radius: 20px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  color: #c8d8ff88;
+}
+
+.modalMeaning {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: rgba(232,240,255,0.6);
+  line-height: 1.9;
+}
+
+.modalDesc {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  color: rgba(232,240,255,0.4);
+  line-height: 1.8;
+}
+
+.modalMeta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 16px;
+  border-top: 1px solid #ffffff08;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: #ffffff33;
+  letter-spacing: .1em;
+}
