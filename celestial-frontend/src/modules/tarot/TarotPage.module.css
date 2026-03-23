@@ -659,3 +659,313 @@
   color: #ffffff33;
   letter-spacing: .1em;
 }
+
+/* ══════════════════════════════════════════
+   ADDITIONS — ai/tarot-craw
+   ══════════════════════════════════════════ */
+
+/* ── Back glow pulse on flip ─────────────── */
+.backGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: conic-gradient(
+    from 0deg,
+    #ff000010, #ffcc0010, #00ffcc10, #0000ff10, #cc00ff10, #ff000010
+  );
+  animation: rotate 12s linear infinite;
+  opacity: 0;
+  transition: opacity .5s;
+}
+.cardFlip:not(.flipped) .backGlow { opacity: 1; }
+
+/* ── tapHint ──────────────────────────────── */
+.tapHint {
+  position: absolute;
+  bottom: 8px; right: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 8px;
+  letter-spacing: .15em;
+  color: #ffffff22;
+  text-transform: uppercase;
+}
+
+/* ── Card glow burst on reveal ───────────── */
+@keyframes revealGlow {
+  0%   { box-shadow: 0 0 0 2px #8888ff88, 0 0 40px #8888ff44; }
+  100% { box-shadow: 0 0 0 1px #8888ff11, 0 0 0px #8888ff00; }
+}
+.flipped .cardFront {
+  animation: revealGlow 1.2s ease-out forwards;
+}
+
+/* ── Spread heading ──────────────────────── */
+.spreadHeading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 32px;
+  animation: fadeUp .5s both;
+}
+.spreadHeadingDeck {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: #ffffff33;
+}
+.spreadHeadingSpread {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  background: linear-gradient(135deg, #e8f0ff, #a0b8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Mini card (Celtic) ───────────────────── */
+.miniCard {
+  width: 90px !important;
+  height: 158px !important;
+}
+.miniCardSlot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.miniCardName {
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
+  color: #c8d8ff88;
+  text-align: center;
+  max-width: 90px;
+  line-height: 1.4;
+}
+
+/* ── Celtic Cross layout ─────────────────── */
+.celticWrapper {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.celticCross {
+  display: grid;
+  grid-template-columns: 102px 102px 102px;
+  grid-template-rows:    170px 170px 170px;
+  gap: 0;
+  position: relative;
+}
+
+/* grid placement */
+.celticTop    { grid-column: 2; grid-row: 1; display: flex; align-items: flex-end;   justify-content: center; padding-bottom: 6px; }
+.celticLeft   { grid-column: 1; grid-row: 2; display: flex; align-items: center;     justify-content: flex-end; padding-right: 6px; }
+.celticRight  { grid-column: 3; grid-row: 2; display: flex; align-items: center;     justify-content: flex-start; padding-left: 6px; }
+.celticBottom { grid-column: 2; grid-row: 3; display: flex; align-items: flex-start; justify-content: center; padding-top: 6px; }
+.celticCenter { grid-column: 2; grid-row: 2; display: flex; align-items: center;     justify-content: center; position: relative; }
+
+.celticCenterPair {
+  position: relative;
+  width: 90px;
+  height: 158px;
+}
+.celticCrossing {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.crossingCard {
+  transform: rotate(90deg);
+  transform-origin: center center;
+}
+/* Hide the duplicate top slot in center — we only use CenterPair */
+.celticCenter > .miniCardSlot:first-child { display: none; }
+
+/* Staff column */
+.celticStaff {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+@media (max-width: 640px) {
+  .celticWrapper   { flex-direction: column; }
+  .celticCross {
+    grid-template-columns: 90px 90px 90px;
+    grid-template-rows:    150px 150px 150px;
+  }
+  .miniCard { width: 78px !important; height: 137px !important; }
+}
+
+/* ── Export block ────────────────────────── */
+.exportBlock {
+  margin-top: 40px;
+  border: 1px solid #8888ff22;
+  border-radius: 12px;
+  overflow: hidden;
+  animation: fadeUp .6s .2s both;
+}
+
+.exportHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: #8888ff08;
+  border-bottom: 1px solid #8888ff14;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.exportTitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #8888ffaa;
+}
+
+.exportText {
+  display: block;
+  width: 100%;
+  padding: 20px 24px;
+  background: #05050a;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  line-height: 1.8;
+  color: rgba(200,216,255,0.55);
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+  max-height: 380px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #8888ff22 transparent;
+}
+
+/* ── Copy button (updated) ───────────────── */
+.copyBtn {
+  padding: 7px 16px;
+  border: 1px solid #8888ff44;
+  background: transparent;
+  color: #8888ff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  letter-spacing: .12em;
+  cursor: pointer;
+  transition: all .3s;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.copyBtn:hover  { background: #8888ff11; }
+.copiedBtn {
+  background: #50d09022 !important;
+  border-color: #50d09088 !important;
+  color: #50d090 !important;
+}
+
+/* ── Modal: new layout with image ────────── */
+.modalLayout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+.modalImgWrap {
+  flex-shrink: 0;
+  width: 120px;
+}
+.modalImg {
+  width: 120px;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px #ffffff11, 0 4px 24px #00000088;
+  display: block;
+}
+.modalImgRev .modalImg {
+  transform: rotate(180deg);
+}
+.modalContent {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Modal: arcana row ───────────────────── */
+.modalArcanaRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.modalSuit {
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
+  letter-spacing: .2em;
+  color: #ffffff33;
+}
+.modalArcanaTag {
+  font-family: 'Outfit', sans-serif;
+  font-size: 9px;
+  letter-spacing: .12em;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.majorTag { background: #a080ff22; color: #a080ff; }
+.minorTag { background: #60b0ff18; color: #60b0ff; }
+
+/* ── Show both meanings toggle ───────────── */
+.showBothBtn {
+  background: none;
+  border: 1px solid #ffffff11;
+  border-radius: 6px;
+  color: #ffffff33;
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  letter-spacing: .08em;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all .2s;
+  margin-bottom: 4px;
+}
+.showBothBtn:hover {
+  border-color: #8888ff44;
+  color: #8888ffaa;
+}
+
+@media (max-width: 480px) {
+  .modalLayout { flex-direction: column; }
+  .modalImgWrap { width: 100%; }
+  .modalImg { width: 100%; max-width: 160px; }
+}
+
+/* ── Celtic Center override (relative stacking) ─────────────── */
+.celticCenter {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.celticCrossing {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.celticCrossing > * { pointer-events: auto; }
+.crossingCard {
+  transform: rotate(90deg) !important;
+}
+
+/* ── celticGrid (applied to cardSpread when celtic) ─── */
+.celticGrid {
+  display: block;
+  margin: 0 auto;
+}
