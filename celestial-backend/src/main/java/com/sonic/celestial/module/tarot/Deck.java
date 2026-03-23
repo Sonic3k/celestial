@@ -53,4 +53,15 @@ public class Deck {
     public String getStyle()        { return style; }
     public boolean isActive()       { return active; }
     public LocalDateTime getCreatedAt() { return createdAt; }
+
+    // ── Setters ──────────────────────────────────────────────
+    public void setModule(String v)        { module = v; }
+    public void setNameVi(String v)        { nameVi = v; }
+    public void setNameEn(String v)        { nameEn = v; }
+    public void setDescription(String v)   { description = v; }
+    public void setCardCount(int v)        { cardCount = v; }
+    public void setCoverImageUrl(String v) { coverImageUrl = v; }
+    public void setBackImageUrl(String v)  { backImageUrl = v; }
+    public void setStyle(String v)         { style = v; }
+    public void setActive(boolean v)       { active = v; }
 }

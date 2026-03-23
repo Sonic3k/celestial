@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Celestial Admin — Tarot Deck Manager</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #08090e;
+      --surface:  #10121a;
+      --border:   #ffffff14;
+      --text:     #c8d4f0;
+      --muted:    #6070a0;
+      --accent:   #a080ff;
+      --accent2:  #60b0ff;
+      --green:    #50d090;
+      --red:      #f06060;
+      --yellow:   #f0c060;
+      --r:        10px;
+    }
+
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif;
+           font-size: 14px; line-height: 1.6; min-height: 100vh; }
+
+    header {
+      padding: 20px 32px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 16px;
+      background: linear-gradient(135deg, #0d0f1a, #08090e);
+    }
+    header h1 { font-size: 18px; font-weight: 600;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    header span { color: var(--muted); font-size: 12px; letter-spacing: .1em; }
+
+    .layout { display: grid; grid-template-columns: 280px 1fr; min-height: calc(100vh - 65px); }
+
+    /* Sidebar */
+    .sidebar { border-right: 1px solid var(--border); padding: 24px 16px;
+               background: var(--surface); }
+    .sidebar h2 { font-size: 10px; letter-spacing: .15em; color: var(--muted);
+                  text-transform: uppercase; margin-bottom: 12px; padding: 0 8px; }
+
+    .deck-item {
+      padding: 10px 12px; border-radius: var(--r); margin-bottom: 6px;
+      cursor: pointer; border: 1px solid transparent;
+      transition: all .2s;
+    }
+    .deck-item:hover  { background: #ffffff08; border-color: var(--border); }
+    .deck-item.active { background: #a080ff18; border-color: var(--accent); }
+    .deck-item .name  { font-weight: 500; }
+    .deck-item .meta  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .badge {
+      display: inline-block; padding: 1px 7px; border-radius: 20px; font-size: 10px;
+      font-weight: 600; margin-left: 6px;
+    }
+    .badge-done    { background: #50d09022; color: var(--green); }
+    .badge-partial { background: #f0c06022; color: var(--yellow); }
+    .badge-empty   { background: #f0606022; color: var(--red); }
+    .badge-active  { background: #a080ff22; color: var(--accent); }
+
+    /* Main */
+    .main { padding: 28px 32px; }
+    .main h2 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+    .main .sub { color: var(--muted); font-size: 13px; margin-bottom: 28px; }
+
+    /* Cards grid */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                  gap: 12px; margin-top: 16px; }
+    .card-thumb {
+      border: 1px solid var(--border); border-radius: var(--r);
+      padding: 12px 10px; background: var(--surface); text-align: center;
+      transition: border-color .2s;
+    }
+    .card-thumb:hover { border-color: var(--accent); }
+    .card-thumb img  { width: 100%; aspect-ratio: 2/3; object-fit: cover;
+                       border-radius: 6px; margin-bottom: 8px;
+                       background: #ffffff08; }
+    .card-thumb .no-img { width: 100%; aspect-ratio: 2/3; background: #ffffff06;
+                          border-radius: 6px; margin-bottom: 8px;
+                          display: flex; align-items: center; justify-content: center;
+                          color: var(--muted); font-size: 24px; }
+    .card-thumb .card-name  { font-size: 11px; font-weight: 500; }
+    .card-thumb .card-en    { font-size: 10px; color: var(--muted); }
+    .card-thumb .arcana-tag { font-size: 9px; margin-top: 4px;
+                              padding: 1px 6px; border-radius: 10px;
+                              display: inline-block; }
+    .major-tag { background: #a080ff22; color: var(--accent); }
+    .minor-tag { background: #60b0ff18; color: var(--accent2); }
+
+    /* Jobs panel */
+    .jobs-panel { margin-top: 32px; }
+    .jobs-panel h3 { font-size: 14px; font-weight: 600; margin-bottom: 12px;
+                     padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .job-row {
+      display: flex; align-items: flex-start; gap: 12px; padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .job-row:last-child { border-bottom: none; }
+    .job-status { font-size: 10px; font-weight: 700; padding: 2px 8px;
+                  border-radius: 20px; white-space: nowrap; }
+    .s-pending { background: #f0c06022; color: var(--yellow); }
+    .s-running { background: #60b0ff22; color: var(--accent2); }
+    .s-done    { background: #50d09022; color: var(--green); }
+    .s-error   { background: #f0606022; color: var(--red); }
+    .job-info  { flex: 1; min-width: 0; }
+    .job-info .job-deck { font-weight: 500; font-size: 13px; }
+    .job-info .job-meta { font-size: 11px; color: var(--muted); }
+    .job-log-toggle { font-size: 11px; color: var(--accent); cursor: pointer;
+                      margin-top: 4px; user-select: none; }
+    .job-log { background: #000000cc; border: 1px solid var(--border); border-radius: 6px;
+               padding: 10px 12px; margin-top: 8px; font-family: monospace; font-size: 11px;
+               color: #8090b0; white-space: pre-wrap; max-height: 200px; overflow-y: auto;
+               display: none; }
+    .job-log.open { display: block; }
+
+    /* Actions toolbar */
+    .toolbar {
+      display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .btn {
+      padding: 7px 16px; border-radius: 8px; border: 1px solid var(--border);
+      font-size: 12px; font-weight: 500; cursor: pointer; transition: all .2s;
+      background: transparent; color: var(--text);
+    }
+    .btn:hover { background: #ffffff0a; border-color: #ffffff22; }
+    .btn-primary { background: #a080ff22; border-color: var(--accent); color: var(--accent); }
+    .btn-primary:hover { background: #a080ff33; }
+    .btn-danger  { background: #f0606014; border-color: var(--red); color: var(--red); }
+    .btn-danger:hover { background: #f0606022; }
+
+    /* Stats bar */
+    .stats-bar { display: flex; gap: 20px; margin-bottom: 24px; flex-wrap: wrap; }
+    .stat { background: var(--surface); border: 1px solid var(--border);
+            border-radius: var(--r); padding: 12px 20px; min-width: 120px; }
+    .stat .val { font-size: 24px; font-weight: 700; color: var(--accent); }
+    .stat .lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    /* Empty state */
+    .empty { padding: 60px 20px; text-align: center; color: var(--muted); }
+    .empty .icon { font-size: 40px; margin-bottom: 12px; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 4px; margin-bottom: 24px;
+            border-bottom: 1px solid var(--border); }
+    .tab { padding: 8px 16px; cursor: pointer; font-size: 13px; font-weight: 500;
+           border-bottom: 2px solid transparent; color: var(--muted); margin-bottom: -1px; }
+    .tab:hover { color: var(--text); }
+    .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* Toast */
+    #toast { position: fixed; bottom: 24px; right: 24px; padding: 10px 18px;
+             border-radius: 8px; font-size: 13px; font-weight: 500;
+             background: var(--surface); border: 1px solid var(--border);
+             display: none; z-index: 999; }
+    #toast.show { display: block; }
+    #toast.success { border-color: var(--green); color: var(--green); }
+    #toast.error   { border-color: var(--red);   color: var(--red);   }
+
+    .spinner { display: inline-block; width: 14px; height: 14px;
+               border: 2px solid var(--border); border-top-color: var(--accent);
+               border-radius: 50%; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .progress-bar { height: 4px; border-radius: 2px; background: var(--border); overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--accent), var(--accent2));
+                     transition: width .3s; }
+
+    select, input[type=text] {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+      color: var(--text); padding: 6px 10px; font-size: 12px; outline: none;
+    }
+    select:focus, input[type=text]:focus { border-color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>✦</div>
+  <h1>Celestial Admin</h1>
+  <span>Tarot Deck Manager</span>
+  <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+    <span id="apiStatus" style="font-size:11px; color: var(--muted)">Connecting...</span>
+    <input type="text" id="apiInput" placeholder="API base URL"
+           style="width:280px" value="" />
+    <button class="btn btn-primary" onclick="setApi()">Connect</button>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- Sidebar: Deck List -->
+  <div class="sidebar">
+    <h2>Decks</h2>
+    <div id="deckList">
+      <div style="color:var(--muted); font-size:12px; padding:8px;">Loading...</div>
+    </div>
+    <div style="margin-top:16px; padding:0 4px;">
+      <button class="btn btn-primary" style="width:100%" onclick="showCrawlInstructions()">
+        + Add New Deck
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Panel -->
+  <div class="main" id="mainPanel">
+    <div class="empty">
+      <div class="icon">✴</div>
+      <div>Select a deck to inspect, or add a new one.</div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── State ───────────────────────────────────────────────────────
+let API = localStorage.getItem('celestial_api') || 'http://localhost:8080'
+let selectedDeck = null
+let allDecks = []
+let pollInterval = null
+
+// ── Init ────────────────────────────────────────────────────────
+document.getElementById('apiInput').value = API
+
+async function init() {
+  await loadDecks()
+  loadJobs()
+}
+
+function setApi() {
+  API = document.getElementById('apiInput').value.trim().replace(/\/$/, '')
+  localStorage.setItem('celestial_api', API)
+  toast('API set to: ' + API, 'success')
+  init()
+}
+
+// ── API Helpers ─────────────────────────────────────────────────
+async function get(path) {
+  const r = await fetch(API + path)
+  const j = await r.json()
+  if (!j.success) throw new Error(j.error || 'API error')
+  return j.data
+}
+
+async function post(path, body) {
+  const r = await fetch(API + path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  })
+  const j = await r.json()
+  if (!j.success) throw new Error(j.error || 'API error')
+  return j.data
+}
+
+async function del(path) {
+  const r = await fetch(API + path, { method: 'DELETE' })
+  return r.ok
+}
+
+// ── Decks ────────────────────────────────────────────────────────
+async function loadDecks() {
+  const statusEl = document.getElementById('apiStatus')
+  try {
+    allDecks = await get('/api/admin/decks')
+    statusEl.textContent = '● Connected'
+    statusEl.style.color = 'var(--green)'
+    renderSidebar()
+  } catch(e) {
+    statusEl.textContent = '● Disconnected'
+    statusEl.style.color = 'var(--red)'
+    document.getElementById('deckList').innerHTML =
+      `<div style="color:var(--muted);font-size:12px;padding:8px;">Could not connect to ${API}</div>`
+  }
+}
+
+function renderSidebar() {
+  const el = document.getElementById('deckList')
+  if (!allDecks.length) {
+    el.innerHTML = `<div style="color:var(--muted);font-size:12px;padding:8px;">No decks found. Add one!</div>`
+    return
+  }
+  el.innerHTML = allDecks.map(d => {
+    const seeded = d.seededCards || 0
+    const total  = d.cardCount   || 78
+    const pct    = Math.round((seeded / total) * 100)
+    const badgeCls = seeded === 0 ? 'badge-empty' : seeded < total ? 'badge-partial' : 'badge-done'
+    const badgeTxt = seeded === 0 ? 'Empty' : seeded < total ? `${pct}%` : 'Full'
+    const activeCls = selectedDeck?.id === d.id ? 'active' : ''
+    return `<div class="deck-item ${activeCls}" onclick="selectDeck(${d.id})">
+      <div class="name">
+        ${d.nameEn}
+        <span class="badge ${badgeCls}">${badgeTxt}</span>
+        ${!d.active ? '<span class="badge" style="background:#ff606022;color:#f06060">Inactive</span>' : ''}
+      </div>
+      <div class="meta">${seeded}/${total} cards · ${d.style || 'classic'}</div>
+      <div class="progress-bar" style="margin-top:6px">
+        <div class="progress-fill" style="width:${pct}%"></div>
+      </div>
+    </div>`
+  }).join('')
+}
+
+async function selectDeck(id) {
+  selectedDeck = allDecks.find(d => d.id === id)
+  renderSidebar()
+  await renderDeckDetail(selectedDeck)
+}
+
+async function renderDeckDetail(deck) {
+  const main = document.getElementById('mainPanel')
+  main.innerHTML = `<div style="color:var(--muted)"><span class="spinner"></span> Loading cards...</div>`
+
+  let cards = []
+  try {
+    const full = await get('/api/tarot/decks')
+    // Load cards via tarot API
+    cards = await loadCardsForDeck(deck.id)
+  } catch(e) { /* use empty */ }
+
+  const seeded = deck.seededCards || 0
+  const total  = deck.cardCount   || 78
+
+  main.innerHTML = `
+    <div class="tabs">
+      <div class="tab active" id="tab-cards" onclick="switchTab('cards')">Cards</div>
+      <div class="tab" id="tab-jobs"  onclick="switchTab('jobs')">Crawl Jobs</div>
+    </div>
+
+    <div id="panel-cards">
+      <h2>${deck.nameEn}</h2>
+      <div class="sub">${deck.nameVi} · ${deck.style || 'classic'}</div>
+
+      <div class="stats-bar">
+        <div class="stat"><div class="val">${seeded}</div><div class="lbl">Cards Seeded</div></div>
+        <div class="stat"><div class="val">${total - seeded}</div><div class="lbl">Missing</div></div>
+        <div class="stat"><div class="val">${Math.round((seeded/total)*100)}%</div><div class="lbl">Complete</div></div>
+      </div>
+
+      <div class="toolbar">
+        <button class="btn btn-danger" onclick="confirmDelete(${deck.id}, '${deck.nameEn}')">
+          Delete Deck
+        </button>
+        ${deck.active
+          ? `<button class="btn" onclick="deactivate(${deck.id})">Deactivate</button>`
+          : `<span style="color:var(--muted);font-size:12px">Deck is inactive</span>`}
+        <span style="color:var(--muted);font-size:12px; margin-left:auto">
+          ID: ${deck.id}
+        </span>
+      </div>
+
+      ${seeded === 0
+        ? `<div class="empty"><div class="icon">🃏</div>No cards seeded yet.<br>
+           <div style="margin-top:8px;font-size:12px">
+           Run: <code style="background:#ffffff0a;padding:2px 6px;border-radius:4px;font-family:monospace">
+           python run_deck.py --deck rider-waite --api ${API}</code></div></div>`
+        : `<div style="font-size:12px;color:var(--muted);margin-bottom:8px">
+             Showing ${cards.length} cards
+           </div>
+           <div class="cards-grid" id="cardsGrid"></div>`
+      }
+    </div>
+
+    <div id="panel-jobs" style="display:none">
+      <h2>Crawl Jobs</h2>
+      <div class="sub">Recent crawl activity for all decks</div>
+      <div id="jobsContent">Loading...</div>
+    </div>
+  `
+
+  if (seeded > 0 && cards.length) {
+    renderCardsGrid(cards)
+  }
+}
+
+async function loadCardsForDeck(deckId) {
+  // We need to use the draw endpoint to get card info — or add a list endpoint
+  // For now, return empty array (no card-list endpoint exists yet)
+  return []
+}
+
+function renderCardsGrid(cards) {
+  const grid = document.getElementById('cardsGrid')
+  if (!grid) return
+  grid.innerHTML = cards.map(c => `
+    <div class="card-thumb">
+      ${c.imageUrl
+        ? `<img src="${c.imageUrl}" alt="${c.nameEn}" loading="lazy">`
+        : `<div class="no-img">✦</div>`}
+      <div class="card-name">${c.nameVi}</div>
+      <div class="card-en">${c.nameEn}</div>
+      <span class="arcana-tag ${c.arcana === 'major' ? 'major-tag' : 'minor-tag'}">
+        ${c.arcana}
+      </span>
+    </div>
+  `).join('')
+}
+
+function switchTab(tab) {
+  document.getElementById('panel-cards').style.display = tab === 'cards' ? '' : 'none'
+  document.getElementById('panel-jobs').style.display  = tab === 'jobs'  ? '' : 'none'
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'))
+  document.getElementById('tab-' + tab).classList.add('active')
+  if (tab === 'jobs') loadJobs('jobsContent')
+}
+
+// ── Jobs ─────────────────────────────────────────────────────────
+async function loadJobs(targetId = null) {
+  const container = targetId ? document.getElementById(targetId) : null
+  try {
+    const jobs = await get('/api/admin/jobs')
+    if (!jobs.length) {
+      if (container) container.innerHTML = '<div class="empty"><div class="icon">📋</div>No jobs yet.</div>'
+      return
+    }
+    const html = `
+      <div class="jobs-panel">
+        ${!targetId ? '<h3>Recent Crawl Jobs</h3>' : ''}
+        ${jobs.map(j => jobRowHtml(j)).join('')}
+      </div>`
+    if (container) container.innerHTML = html
+  } catch(e) {
+    if (container) container.innerHTML = `<div style="color:var(--muted)">Could not load jobs.</div>`
+  }
+}
+
+function jobRowHtml(j) {
+  const sCls = { PENDING:'s-pending', RUNNING:'s-running', DONE:'s-done', ERROR:'s-error' }[j.status] || 's-pending'
+  const created = new Date(j.createdAt).toLocaleString()
+  const seeded  = j.seededCards > 0 ? ` · ${j.seededCards} cards seeded` : ''
+  return `
+    <div class="job-row">
+      <div class="job-status ${sCls}">${j.status}</div>
+      <div class="job-info">
+        <div class="job-deck">${j.deckSlug} <span style="color:var(--muted);font-size:11px">via ${j.provider}</span></div>
+        <div class="job-meta">${created}${seeded}</div>
+        ${j.log ? `<div class="job-log-toggle" onclick="toggleLog(this)">▶ Show log</div>
+                   <div class="job-log">${escHtml(j.log)}</div>` : ''}
+        ${j.errorMsg ? `<div style="color:var(--red);font-size:11px;margin-top:4px">Error: ${escHtml(j.errorMsg)}</div>` : ''}
+      </div>
+    </div>`
+}
+
+function toggleLog(el) {
+  const log = el.nextElementSibling
+  log.classList.toggle('open')
+  el.textContent = log.classList.contains('open') ? '▼ Hide log' : '▶ Show log'
+}
+
+// ── Deck Actions ─────────────────────────────────────────────────
+function showCrawlInstructions() {
+  const main = document.getElementById('mainPanel')
+  main.innerHTML = `
+    <h2>Add New Deck</h2>
+    <div class="sub">Run the Python crawl script from your local machine</div>
+
+    <div style="margin-top:24px; display:flex; flex-direction:column; gap:16px;">
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px">
+        <div style="font-size:13px;font-weight:600;margin-bottom:12px; color:var(--accent)">
+          1. Setup
+        </div>
+        <code style="display:block;background:#000;padding:12px 16px;border-radius:6px;font-family:monospace;font-size:12px;color:#8090c0;white-space:pre">cd scripts
+pip install -r requirements.txt</code>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px">
+        <div style="font-size:13px;font-weight:600;margin-bottom:12px; color:var(--accent)">
+          2. Crawl Rider-Waite (full with images)
+        </div>
+        <code style="display:block;background:#000;padding:12px 16px;border-radius:6px;font-family:monospace;font-size:12px;color:#8090c0;white-space:pre">python run_deck.py \\
+  --deck rider-waite \\
+  --api ${API}</code>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px">
+        <div style="font-size:13px;font-weight:600;margin-bottom:12px; color:var(--accent)">
+          3. Crawl without images (faster, for data-only testing)
+        </div>
+        <code style="display:block;background:#000;padding:12px 16px;border-radius:6px;font-family:monospace;font-size:12px;color:#8090c0;white-space:pre">python run_deck.py \\
+  --deck rider-waite \\
+  --api ${API} \\
+  --skip-images</code>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px">
+        <div style="font-size:13px;font-weight:600;margin-bottom:8px; color:var(--muted)">
+          Available decks
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <tr style="color:var(--muted);border-bottom:1px solid var(--border)">
+            <th style="text-align:left;padding:4px 8px">Slug</th>
+            <th style="text-align:left;padding:4px 8px">Name</th>
+            <th style="text-align:left;padding:4px 8px">Source</th>
+            <th style="text-align:left;padding:4px 8px">Status</th>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;font-family:monospace">rider-waite</td>
+            <td style="padding:6px 8px">Rider-Waite-Smith</td>
+            <td style="padding:6px 8px">tarotapi.dev + Wikimedia</td>
+            <td style="padding:6px 8px;color:var(--green)">✓ Ready</td>
+          </tr>
+          <tr style="color:var(--muted)">
+            <td style="padding:6px 8px;font-family:monospace">thoth</td>
+            <td style="padding:6px 8px">Thoth Tarot</td>
+            <td style="padding:6px 8px">—</td>
+            <td style="padding:6px 8px">Coming soon</td>
+          </tr>
+          <tr style="color:var(--muted)">
+            <td style="padding:6px 8px;font-family:monospace">marseille</td>
+            <td style="padding:6px 8px">Tarot de Marseille</td>
+            <td style="padding:6px 8px">—</td>
+            <td style="padding:6px 8px">Coming soon</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div style="margin-top:24px">
+      <button class="btn" onclick="loadDecks().then(()=>{ document.getElementById('mainPanel').innerHTML='<div class=empty><div class=icon>✴</div>Select a deck.</div>' })">
+        ← Back to decks
+      </button>
+    </div>
+  `
+}
+
+async function confirmDelete(id, name) {
+  if (!confirm(`Delete deck "${name}" and ALL its cards?\nThis cannot be undone.`)) return
+  try {
+    await del(`/api/admin/decks/${id}`)
+    toast(`Deck "${name}" deleted`, 'success')
+    selectedDeck = null
+    await loadDecks()
+    document.getElementById('mainPanel').innerHTML =
+      '<div class="empty"><div class="icon">✴</div>Select a deck.</div>'
+  } catch(e) {
+    toast('Delete failed: ' + e.message, 'error')
+  }
+}
+
+async function deactivate(id) {
+  try {
+    await fetch(API + `/api/admin/decks/${id}/deactivate`, { method: 'PUT' })
+    toast('Deck deactivated', 'success')
+    await loadDecks()
+    if (selectedDeck?.id === id) {
+      selectedDeck = allDecks.find(d => d.id === id)
+      renderDeckDetail(selectedDeck)
+    }
+  } catch(e) {
+    toast('Failed: ' + e.message, 'error')
+  }
+}
+
+// ── Utils ────────────────────────────────────────────────────────
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast')
+  el.textContent = msg
+  el.className = `show ${type}`
+  setTimeout(() => { el.className = '' }, 3000)
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+}
+
+// ── Start ────────────────────────────────────────────────────────
+init()
+
+// Auto-refresh jobs every 10s
+setInterval(() => {
+  loadDecks()
+  if (document.getElementById('panel-jobs') &&
+      document.getElementById('panel-jobs').style.display !== 'none') {
+    loadJobs('jobsContent')
+  }
+}, 10000)
+</script>
+</body>
+</html>

@@ -23,3 +23,14 @@ spring:
 
 server:
   port: ${PORT:8080}
+
+# ── Backblaze B2 ─────────────────────────────────────────────────
+b2:
+  key-id:      ${B2_KEY_ID:}
+  app-key:     ${B2_APP_KEY:}
+  bucket-name: ${B2_BUCKET_NAME:sonic-celestial}
+  endpoint:    ${B2_ENDPOINT:https://s3.us-east-005.backblazeb2.com}
+
+# ── BunnyCDN ─────────────────────────────────────────────────────
+bunny:
+  cdn-base: ${BUNNY_CDN_BASE:https://sonic-celestial.b-cdn.net}

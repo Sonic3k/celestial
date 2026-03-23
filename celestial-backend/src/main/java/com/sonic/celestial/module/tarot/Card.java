@@ -28,7 +28,7 @@ public class Card {
     private String arcana; // major | minor
 
     @Column(length = 20)
-    private String suit; // wands | cups | swords | pentacles | null
+    private String suit;
 
     private Integer number;
 
@@ -65,23 +65,42 @@ public class Card {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    // ── Getters ──────────────────────────────────────────────
-    public Long getId()              { return id; }
-    public Deck getDeck()            { return deck; }
-    public int getCardIndex()        { return cardIndex; }
-    public String getNameVi()        { return nameVi; }
-    public String getNameEn()        { return nameEn; }
-    public String getArcana()        { return arcana; }
-    public String getSuit()          { return suit; }
-    public Integer getNumber()       { return number; }
-    public String getImageUrl()      { return imageUrl; }
-    public String getThumbnailUrl()  { return thumbnailUrl; }
-    public String getKeywordsUpright()  { return keywordsUpright; }
-    public String getKeywordsReversed() { return keywordsReversed; }
-    public String getMeaningUpright()   { return meaningUpright; }
-    public String getMeaningReversed()  { return meaningReversed; }
-    public String getDescription()   { return description; }
-    public String getElement()       { return element; }
-    public String getPlanetOrSign()  { return planetOrSign; }
-    public Integer getNumerologyLink(){ return numerologyLink; }
+    // Getters
+    public Long getId()                      { return id; }
+    public Deck getDeck()                    { return deck; }
+    public int getCardIndex()                { return cardIndex; }
+    public String getNameVi()                { return nameVi; }
+    public String getNameEn()                { return nameEn; }
+    public String getArcana()                { return arcana; }
+    public String getSuit()                  { return suit; }
+    public Integer getNumber()               { return number; }
+    public String getImageUrl()              { return imageUrl; }
+    public String getThumbnailUrl()          { return thumbnailUrl; }
+    public String getKeywordsUpright()       { return keywordsUpright; }
+    public String getKeywordsReversed()      { return keywordsReversed; }
+    public String getMeaningUpright()        { return meaningUpright; }
+    public String getMeaningReversed()       { return meaningReversed; }
+    public String getDescription()           { return description; }
+    public String getElement()               { return element; }
+    public String getPlanetOrSign()          { return planetOrSign; }
+    public Integer getNumerologyLink()       { return numerologyLink; }
+
+    // Setters
+    public void setDeck(Deck v)              { deck = v; }
+    public void setCardIndex(int v)          { cardIndex = v; }
+    public void setNameVi(String v)          { nameVi = v; }
+    public void setNameEn(String v)          { nameEn = v; }
+    public void setArcana(String v)          { arcana = v; }
+    public void setSuit(String v)            { suit = v; }
+    public void setNumber(Integer v)         { number = v; }
+    public void setImageUrl(String v)        { imageUrl = v; }
+    public void setThumbnailUrl(String v)    { thumbnailUrl = v; }
+    public void setKeywordsUpright(String v) { keywordsUpright = v; }
+    public void setKeywordsReversed(String v){ keywordsReversed = v; }
+    public void setMeaningUpright(String v)  { meaningUpright = v; }
+    public void setMeaningReversed(String v) { meaningReversed = v; }
+    public void setDescription(String v)     { description = v; }
+    public void setElement(String v)         { element = v; }
+    public void setPlanetOrSign(String v)    { planetOrSign = v; }
+    public void setNumerologyLink(Integer v) { numerologyLink = v; }
 }
