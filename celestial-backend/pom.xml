@@ -15,7 +15,7 @@
     <groupId>com.sonic</groupId>
     <artifactId>celestial-backend</artifactId>
     <version>1.0.0</version>
-    <n>celestial-backend</n>
+    <name>celestial-backend</name>
     <description>Celestial — Mystic Insight · Cosmic Wisdom</description>
 
     <properties>
