@@ -115,21 +115,22 @@ public class AdminService {
         }
 
         // Update crawl job if linked
+        final int finalCount   = count;
+        final String deckLabel = req.deck.nameEn;
         if (req.jobId != null && !req.jobId.isBlank()) {
             try {
                 long jid = Long.parseLong(req.jobId);
                 jobRepo.findById(jid).ifPresent(job -> {
                     job.setStatus("DONE");
-                    job.setSeededCards(count);
+                    job.setSeededCards(finalCount);
                     job.setFinishedAt(LocalDateTime.now());
-                    appendLog(job, "[DONE] Seeded " + count + " cards → " + req.deck.nameEn);
+                    appendLog(job, "[DONE] Seeded " + finalCount + " cards → " + deckLabel);
                     jobRepo.save(job);
                 });
             } catch (NumberFormatException ignored) {}
         }
 
-        final int finalCount = count;
-        final Long deckId    = deck.getId();
+        final Long deckId = deck.getId();
         return Map.of("success", true, "deckId", deckId,
                 "deckName", deck.getNameEn(), "seededCards", finalCount);
     }
